@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OnionArch.Domain\OnionArch.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
