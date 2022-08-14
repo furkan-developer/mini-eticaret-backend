@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using OnionArch.Persistence.Contexts.MsSql;
+using OnionArch.Persistence.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace OnionArch.Persistence.Extensions
         {
             services.AddDbContext<ECommerceDbContext>(options =>
             {
-                options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=ECommerceGY;Trusted_Connection=True;");
+                options.UseSqlServer(Configuration.ConnectionString);
             });
         }
     }
