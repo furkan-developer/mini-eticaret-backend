@@ -1,4 +1,9 @@
+using OnionArch.Persistence.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// add custom services declare
+builder.Services.ConfigureMsSqlServer();
 
 // Add services to the container.
 
