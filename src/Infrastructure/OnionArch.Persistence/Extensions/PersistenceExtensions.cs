@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using OnionArch.Application.Repositories;
 using OnionArch.Persistence.Contexts.MsSql;
+using OnionArch.Persistence.Repositories;
 using OnionArch.Persistence.Tools;
 using System;
 using System.Collections.Generic;
@@ -16,8 +18,14 @@ namespace OnionArch.Persistence.Extensions
         {
             services.AddDbContext<ECommerceDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.ConnectionString);
+                options.UseSqlServer(Configuration.ConnectionString);                
             });
+        }
+
+        public static void ConfigurePersistenceServices(this IServiceCollection services)
+        {
+            services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
+            services.AddScoped<IProductReadRepository, ProductReadRepository>();
         }
     }
 }

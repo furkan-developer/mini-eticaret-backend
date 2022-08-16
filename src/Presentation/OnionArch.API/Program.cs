@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // add custom services declare
 builder.Services.ConfigureMsSqlServer();
+builder.Services.ConfigurePersistenceServices();
 
 // Add services to the container.
 
