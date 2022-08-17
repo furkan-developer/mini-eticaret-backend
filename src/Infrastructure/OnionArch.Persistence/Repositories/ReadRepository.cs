@@ -23,16 +23,35 @@ namespace OnionArch.Persistence.Repositories
 
         public DbSet<TEntity> Table => _dbContext.Set<TEntity>();
 
-        public IQueryable<TEntity> GetAll() 
-            => Table.AsQueryable();
-
-        public IQueryable<TEntity> GetAllByCondition(Expression<Func<TEntity, bool>> filter)
-            => Table.Where(filter);
-
-        public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> filter)
-            => await Table.FirstOrDefaultAsync(filter);
-
-        public Task<TEntity> GetByIdAsync(string id)
-            => Table.FirstOrDefaultAsync(entity => entity.Id == Guid.Parse(id));        
+        public IQueryable<TEntity> GetAll(bool canTrackChangeOnData = true)
+        {
+            var data = Table.AsQueryable();
+            if (!canTrackChangeOnData)
+                data = data.AsNoTracking();
+            return data;
+        }
+        public IQueryable<TEntity> GetAllByCondition(Expression<Func<TEntity, bool>> filter, bool canTrackChangeOnData = true)       
+        {
+            var data = Table.AsQueryable();
+            if (!canTrackChangeOnData)
+                data = data.AsNoTracking();
+            return data.Where(filter);
+        }
+        public async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> filter, bool canTrackChangeOnData = true)
+        {
+            var data = Table.AsQueryable();
+            if (!canTrackChangeOnData)
+                data = data.AsNoTracking();
+            return await data.SingleOrDefaultAsync(filter);
+        }
+        public async Task<TEntity> GetByIdAsync(Guid id, bool canTrackChangeOnData = true)
+        {
+            return await GetSingleAsync(e => e.Id == id, canTrackChangeOnData);
+        }         
+        public IQueryable<TEntity> CheckTracking(IQueryable<TEntity> data, bool canTrackChangeOnData)
+        {
+            if (!canTrackChangeOnData) data.AsNoTracking();
+            return data;
+        }
     }
 }

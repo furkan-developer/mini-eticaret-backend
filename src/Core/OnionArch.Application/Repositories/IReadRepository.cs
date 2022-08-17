@@ -11,9 +11,9 @@ namespace OnionArch.Application.Repositories
     public interface IReadRepository<TEntity> : IRespositoryBase<TEntity>
         where TEntity : BaseEntity
     {
-        IQueryable<TEntity> GetAll();
-        IQueryable<TEntity> GetAllByCondition(Expression<Func<TEntity, bool>> filter);
-        Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> filter);
-        Task<TEntity> GetByIdAsync(string id);
+        IQueryable<TEntity> GetAll(bool canTrackChangeOnData = true);
+        IQueryable<TEntity> GetAllByCondition(Expression<Func<TEntity, bool>> filter, bool canTrackChangeOnData = true);
+        Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> filter, bool canTrackChangeOnData = true);
+        Task<TEntity> GetByIdAsync(Guid id, bool canTrackChangeOnData = true);
     }
 }
