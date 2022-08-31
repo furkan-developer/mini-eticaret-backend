@@ -5,6 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 // add custom services declare
 builder.Services.ConfigureMsSqlServer();
 builder.Services.ConfigurePersistenceServices();
+builder.Services.AddCors(corsOptions =>
+{
+    corsOptions.AddPolicy("Angular", configurePolicy =>
+    {
+         configurePolicy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+    });
+});
 
 // Add services to the container.
 
@@ -23,6 +30,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("Angular");
 
 app.UseAuthorization();
 
